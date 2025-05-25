@@ -1,0 +1,21 @@
+# Archivos generados por Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Archivos de logs o salidas temporales
+*.log
+*.bak
+*.tmp
+
+# Archivos de IDEs
+.vscode/
+.idea/
+.DS_Store
