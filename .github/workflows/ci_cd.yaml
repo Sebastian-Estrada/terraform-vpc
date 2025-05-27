@@ -56,6 +56,11 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Lint Terraform code with TFLint
+        uses: terraform-linters/tflint-action@v1
+        with:
+          tflint_version: latest
+
       # Paso 7: Genera el plan de ejecución (sin aplicar aún)
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
