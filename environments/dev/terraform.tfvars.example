@@ -1,0 +1,18 @@
+# terraform.tfvars.example
+# Archivo plantilla para definir variables del entorno Terraform
+# NO incluir este archivo con valores reales en el repo (usa .gitignore)
+
+# Región de AWS donde se desplegará la infraestructura
+aws_region = "us-east-1"
+
+# CIDR del bloque principal de la VPC
+vpc_cidr = "10.0.0.0/16"
+
+# CIDR de la subred pública dentro de la VPC
+subnet_cidr = "10.0.1.0/24"
+
+# Zona de disponibilidad para la subred (puedes cambiar por us-east-1b/c)
+availability_zone = "us-east-1a"
+
+# Nombre que se usará como tag para identificar recursos (opcional)
+project_name = "terraform-vpc-dev"
