@@ -56,10 +56,18 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Lint Terraform code with TFLint
-        uses: terraform-linters/tflint-action@v3.1.0
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
         with:
-          tflint_version: latest
+          tflint_version: v0.58.0
+
+      - name: Initialize TFLint plugins
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run TFLint
+        run: tflint -f compact
 
       # Paso 7: Genera el plan de ejecución (sin aplicar aún)
       - name: Terraform Plan
