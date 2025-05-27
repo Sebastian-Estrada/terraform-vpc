@@ -33,9 +33,9 @@ jobs:
 
       # Paso 2: Autenticación con AWS usando OIDC (sin claves)
       - name: Configure AWS credentials using OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4.2.1
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/github-actions-terraform-role  # Reemplazar con el ARN real
+          role-to-assume: arn:aws:iam::123456789012:role/github-actions-terraform-role
           aws-region: us-east-1
 
       # Paso 3: Instala la versión deseada de Terraform
@@ -57,7 +57,7 @@ jobs:
         run: terraform validate
 
       - name: Lint Terraform code with TFLint
-        uses: terraform-linters/tflint-action@v1
+        uses: terraform-linters/tflint-action@v3.1.0
         with:
           tflint_version: latest
 
