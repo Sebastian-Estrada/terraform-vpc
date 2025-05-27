@@ -1,0 +1,66 @@
+# Nombre visible del pipeline en la UI de GitHub Actions
+name: Terraform CI/CD
+
+# Eventos que disparan este pipeline
+on:
+  push:
+    branches:
+      - main  # Solo ejecuta en push directo a main
+  pull_request:
+    branches:
+      - main  # También en PRs hacia main (para validar antes del merge)
+
+# Permisos mínimos necesarios para usar OIDC (obtener token y leer el repo)
+permissions:
+  id-token: write  # Permite solicitar token OIDC para autenticarse con AWS
+  contents: read   # Permite leer el contenido del repositorio
+
+jobs:
+  terraform:
+    name: Terraform Plan and Apply  # Nombre visible del job
+    runs-on: ubuntu-latest          # Tipo de runner a usar (máquina virtual Ubuntu)
+
+    # Configuración por defecto para cada paso del job
+    defaults:
+      run:
+        shell: bash                 # Usamos bash para todos los comandos
+        working-directory: environments/dev  # Directorio donde se encuentra el código Terraform
+
+    steps:
+      # Paso 1: Clona el repositorio dentro del runner
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Paso 2: Autenticación con AWS usando OIDC (sin claves)
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/github-actions-terraform-role  # Reemplazar con el ARN real
+          aws-region: us-east-1
+
+      # Paso 3: Instala la versión deseada de Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.3  # Versión específica de Terraform
+
+      # Paso 4: Verifica formato del código (similar a lint)
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      # Paso 5: Inicializa Terraform y configura el backend remoto
+      - name: Terraform Init
+        run: terraform init -backend-config="profile=terraform-training"
+
+      # Paso 6: Valida que el código sea sintácticamente válido
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Paso 7: Genera el plan de ejecución (sin aplicar aún)
+      - name: Terraform Plan
+        run: terraform plan -var-file="terraform.tfvars"
+
+      # Paso 8: Aplica cambios solo si estamos en la rama `main`
+      - name: Terraform Apply (only on main)
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"

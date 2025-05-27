@@ -14,6 +14,6 @@ module "public_subnet" {
   name              = "public-subnet-dev"
   vpc_id            = module.vpc.vpc_id
   cidr_block       = var.cidr_block
-  availability_zone = "us-east-1a"
+  availability_zone = var.availability_zone
   public            = true
 }

@@ -43,6 +43,16 @@ terraform apply -var-file="terraform.tfvars"
 
 Consulta `terraform.tfvars.example` como plantilla para definir tus variables por entorno.
 
+## 📄 Uso de Variables con `.tfvars`
+
+Este proyecto utiliza un archivo `terraform.tfvars` para definir valores específicos del entorno (como región, CIDRs, nombres de recursos, etc.). Para mantener buenas prácticas de seguridad, **no se debe subir este archivo al repositorio**.
+
+En su lugar, se incluye un archivo `terraform.tfvars.example` que sirve como plantilla. Puedes copiarlo y adaptarlo localmente:
+
+```bash
+cp terraform.tfvars.example terraform.tfvars
+```
+
 ## 🔧 Despliegue automático con GitHub Actions
 
 - El repositorio está preparado para usar autenticación OIDC con AWS
