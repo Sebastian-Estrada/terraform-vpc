@@ -65,6 +65,14 @@ cp terraform.tfvars.example terraform.tfvars
 > El rol de GitHub Actions debe estar configurado en AWS con el proveedor OIDC:  
 > `token.actions.githubusercontent.com`
 
+## 🧨 Destrucción de la infraestructura (local)
+
+En entornos de desarrollo, puedes destruir todos los recursos provisionados por Terraform de forma segura utilizando el siguiente comando:
+
+```bash
+terraform destroy -var-file="terraform.tfvars"
+```
+
 ## 🛡️ Seguridad
 
 - Política de IAM restringida por organización/repo/rama
@@ -78,7 +86,6 @@ cp terraform.tfvars.example terraform.tfvars
 🚧 Fase 3 – CI/CD con GitHub Actions  
 🔜 Fase 4 – Seguridad Avanzada + Multi-Cuenta  
 🔜 Fase 5 – EKS + despliegue de aplicaciones
-
 
 # Extra
 
