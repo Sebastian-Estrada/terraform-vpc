@@ -20,5 +20,5 @@ variable "public" {
 
 variable "availability_zone" {
   description = "Availability zone for the subnet"
-  type        = string  
+  type        = string
 }
