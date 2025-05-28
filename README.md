@@ -82,16 +82,29 @@ cp terraform.tfvars.example terraform.tfvars
 
 # Extra
 
-## Crear el bucket para almacenar el estado de terraform
-aws s3api create-bucket --bucket terraform-remote-state-sebastian-2 --region us-east-1 --profile terraform-training
+## Backend remoto de Terraform (S3 + DynamoDB)
 
-## Crear la tabla de dynamoDB para almacenar el locking
+Estos comandos se usan para preparar el backend remoto de Terraform. **Solo deben ejecutarse una vez** por entorno (dev, staging, prod) antes de hacer `terraform init`.
+
+### 🔹 Crear el bucket S3 para el estado remoto
+
+```bash
+aws s3api create-bucket \
+  --bucket terraform-remote-state-sebastian-2 \
+  --region us-east-1 \
+  --profile terraform-training
+```
+
+### 🔹 Crear la tabla DynamoDB para bloqueo de estado
+
 aws dynamodb create-table \
   --table-name terraform-locks \
   --attribute-definitions AttributeName=LockID,AttributeType=S \
   --key-schema AttributeName=LockID,KeyType=HASH \
-  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+  --billing-mode PAY_PER_REQUEST \
   --profile terraform-training
+
+### 🧹 Eliminación de recursos (solo para entornos de prueba)
 
 ## Vaciar el bucket
 aws s3 rm s3://terraform-remote-state-sebastian-2 --recursive --profile terraform-training
