@@ -78,12 +78,16 @@ jobs:
           availability_zone  = "${{ vars.AZ }}"
           project_name       = "${{ vars.PROJECT_NAME }}"
           EOF
-  
-      # Paso 7: Genera el plan de ejecución (sin aplicar aún)
+
+      - name: Instalar Checkov
+        run: pip install checkov
+
+      - name: Ejecutar Checkov para escaneo de seguridad
+        run: checkov -d .
+
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
 
-      # Paso 8: Aplica cambios solo si estamos en la rama `main`
       - name: Terraform Apply (only on main)
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve -var-file="terraform.tfvars"
