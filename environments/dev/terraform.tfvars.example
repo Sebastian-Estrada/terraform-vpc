@@ -6,10 +6,10 @@
 aws_region = "us-east-1"
 
 # CIDR del bloque principal de la VPC
-vpc_cidr = "10.0.0.0/16"
+vpc_cidr_block = "10.0.0.0/16"
 
 # CIDR de la subred pública dentro de la VPC
-subnet_cidr = "10.0.1.0/24"
+cidr_block = "10.0.1.0/24"
 
 # Zona de disponibilidad para la subred (puedes cambiar por us-east-1b/c)
 availability_zone = "us-east-1a"
