@@ -69,6 +69,16 @@ jobs:
       - name: Run TFLint
         run: tflint -f compact
 
+      - name: Crear archivo terraform.tfvars desde secretos
+        run: |
+          cat <<EOF > terraform.tfvars
+          aws_region         = "${{ vars.AWS_REGION }}"
+          vpc_cidr           = "${{ vars.VPC_CIDR }}"
+          subnet_cidr        = "${{ vars.SUBNET_CIDR }}"
+          availability_zone  = "${{ vars.AZ }}"
+          project_name       = "${{ vars.PROJECT_NAME }}"
+          EOF
+  
       # Paso 7: Genera el plan de ejecución (sin aplicar aún)
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
