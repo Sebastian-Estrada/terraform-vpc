@@ -50,7 +50,7 @@ jobs:
 
       # Paso 5: Inicializa Terraform y configura el backend remoto
       - name: Terraform Init
-        run: terraform init -backend-config="profile=terraform-training"
+        run: terraform init
 
       # Paso 6: Valida que el código sea sintácticamente válido
       - name: Terraform Validate
